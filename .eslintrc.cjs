@@ -20,5 +20,6 @@ module.exports = {
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "no-console": "off",
+    "prefer-destructuring": "off",
   },
 };
