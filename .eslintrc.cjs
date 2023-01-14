@@ -19,6 +19,6 @@ module.exports = {
     "no-param-reassign": "off",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
-    "no-console": import.meta.env.VITE_ENV === "production" ? "warn" : "off",
+    "no-console": "off",
   },
 };
