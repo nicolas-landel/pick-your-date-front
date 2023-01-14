@@ -57,6 +57,7 @@ const submitLogin = async () => {
     }
   } catch (e) {
     console.error(e);
+    loginLoading.value = false;
   }
 };
 </script>
