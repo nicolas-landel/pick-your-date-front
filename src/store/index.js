@@ -2,9 +2,7 @@ import Vuex from "vuex";
 import VuexORM from "@vuex-orm/core";
 
 // Import vuex-orm models
-import {
-  Place
-} from "@/models";
+import { Place } from "@/models";
 
 // Import store modules
 import PlaceModule from "./modules/place";
@@ -22,8 +20,8 @@ const store = new Vuex.Store({
   mutations: {},
   plugins: [VuexORM.install(database)],
   modules: {
-    place: PlaceModule
-  }
-})
+    place: PlaceModule,
+  },
+});
 
-export default store
+export default store;

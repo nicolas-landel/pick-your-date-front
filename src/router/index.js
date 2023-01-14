@@ -2,9 +2,8 @@ import { createWebHistory, createRouter } from "vue-router";
 
 // import appChildren from "./children/app-children";
 
-
-const Homepage = () => import("@/components/Homepage.vue")
-const Dashboard = () => import("@/components/Dashboard.vue")
+const Homepage = () => import("@/components/Homepage.vue");
+const Dashboard = () => import("@/components/Dashboard.vue");
 
 const routes = [
   {
@@ -13,7 +12,7 @@ const routes = [
     component: Homepage,
     meta: {
       public: true,
-    }
+    },
     // children: appChildren,
     // beforeEnter: async (to, from, next) => {
     //   next({ name: "connection" });
@@ -33,7 +32,7 @@ const routes = [
   {
     path: "/:catchAll(.*)",
     component: Homepage,
-  }
+  },
 ];
 
 const router = createRouter({

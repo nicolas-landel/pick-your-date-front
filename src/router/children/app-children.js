@@ -1,7 +1,4 @@
-
-const Dashboard = () => import("@/components/app/Dashboard.vue")
-
-
+const Dashboard = () => import("@/components/app/Dashboard.vue");
 
 export default [
   {
@@ -9,6 +6,5 @@ export default [
     name: "dashboard",
     components: Dashboard,
     // children: dashboardChildren,
-  }
-
-]
+  },
+];
