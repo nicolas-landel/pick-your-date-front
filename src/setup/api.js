@@ -10,12 +10,16 @@ const API = axios.create({
 });
 
 class APIService {
+  constructor() {
+    this.API = API;
+  }
+
   get(path) {
-    return API.get(path);
+    return this.API.get(path);
   }
 
   post(path, data) {
-    return API.post(path, data);
+    return this.API.post(path, data);
   }
 }
 
