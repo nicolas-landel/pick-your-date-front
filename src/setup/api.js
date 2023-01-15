@@ -5,12 +5,14 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-type": "application/json",
-    Authorization: `Token ${TokenService.getToken()}`,
   },
 });
 
 class APIService {
   constructor() {
+    if (TokenService.getToken()) {
+      API.defaults.headers.Authorization = `Token ${TokenService.getToken()}`;
+    }
     this.API = API;
   }
 

@@ -11,6 +11,9 @@ export class User extends Model {
       firstName: this.attr(""),
       lastName: this.attr(""),
       email: this.attr(""),
+      isCurrentUser: this.boolean(false),
+      isAdmin: this.boolean(false),
+      createdAt: this.attr(""),
     };
   }
 }

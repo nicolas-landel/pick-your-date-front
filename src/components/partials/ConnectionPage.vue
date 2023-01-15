@@ -8,10 +8,17 @@
   </div>
 </template>
 
-<script setup>
+<script>
+import { defineComponent } from "vue";
 import LoginForm from "@/components/partials/LoginForm.vue";
 import SignupForm from "@/components/partials/SignupForm.vue";
-defineProps({});
+
+export default defineComponent({
+  components: {
+    LoginForm,
+    SignupForm,
+  },
+});
 </script>
 
 <style scoped>

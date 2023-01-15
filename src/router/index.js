@@ -1,16 +1,18 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { privateRouteMiddleware } from "./middlewares";
+import store from "@/store";
 
 // import appChildren from "./children/app-children";
 
-const Homepage = () => import("@/components/Homepage.vue");
+const AppHomepage = () => import("@/components/AppHomepage.vue");
 const Dashboard = () => import("@/components/Dashboard.vue");
+const AppLogout = () => import("@/components/AppLogout.vue");
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: Homepage,
+    component: AppHomepage,
     meta: {
       public: true,
     },
@@ -19,11 +21,28 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: Dashboard,
+    beforeEnter: async (to, from, next) => {
+      await store.dispatch("user/refreshCurrentUser");
+      next();
+    },
     // children: dashboardChildren,
   },
   {
+    path: "/logout",
+    name: "logout",
+    component: AppLogout,
+    meta: {
+      public: true,
+    },
+    // beforeEnter: (to, from, next) => {
+    //   store.dispatch("user/logoutUser");
+    //   store.dispatch("notification/showSuccessNotification", "logoutSuccess");
+    //   next({ name: "home" });
+    // },
+  },
+  {
     path: "/:catchAll(.*)",
-    component: Homepage,
+    component: AppHomepage,
     meta: {
       public: true,
     },

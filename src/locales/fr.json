@@ -1,5 +1,15 @@
 {
     "password": "Mot de passe",
     "Login": "Login",
-    "Sign up": "Sign up"
+    "Sign up": "Sign up",
+    "FirstName": "FirstName",
+    "LastName": "LastName",
+    "Email": "Email",
+    "Password": "Password",
+    "errorOccured": "An error occured, please try again",
+    "formNotValid": "The form is not valid",
+    "badCredentials": "Access denied: wrong email or password",
+    "passwordError": "Error for the password: {message}",
+    "emailError": "Error for the email: {message}",
+    "logoutSuccess": "Vous avez bien été déconnecté"
 }

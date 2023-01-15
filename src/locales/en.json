@@ -5,5 +5,11 @@
     "FirstName": "FirstName",
     "LastName": "LastName",
     "Email": "Email",
-    "Password": "Password"
+    "Password": "Password",
+    "errorOccured": "An error occured, please try again",
+    "formNotValid": "The form is not valid",
+    "badCredentials": "Access denied: wrong email or password",
+    "passwordError": "Password error: {message}",
+    "emailError": "Email error: {message}",
+    "logoutSuccess": "You have been logged out"
 }

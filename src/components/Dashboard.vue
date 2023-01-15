@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ $t("Dashboard") }}</h1>
+  <h1 class="mt-15">{{ $t("Dashboard") }}</h1>
 </template>
 
 <script setup>

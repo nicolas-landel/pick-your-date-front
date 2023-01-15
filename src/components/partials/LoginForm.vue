@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>{{ $t("Login") }}</h3>
-    <VForm>
+    <VForm v-model="validForm" ref="loginForm" lazy-validation>
       <VTextField
         v-model="loginEmail"
         name="email"
@@ -28,38 +28,65 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+<script>
+import { defineComponent } from "vue";
+import { mapActions } from "vuex";
+import router from "@/router";
 import api from "@/setup/api";
 import { TokenService } from "@/setup/tokenService";
+import { User } from "@/models";
 
-defineProps({});
-
-const loginEmail = ref("");
-const loginPassword = ref("");
-const loginLoading = ref(false);
-const router = useRouter();
-
-const submitLogin = async () => {
-  loginLoading.value = true;
-  try {
-    const response = await api.post("/user/login/", {
-      email: loginEmail.value,
-      password: loginPassword.value,
-    });
-    if (response && response.status === 202) {
-      loginLoading.value = false;
-      const { token } = response.data;
-      console.log("REPP", response, token);
-      TokenService.saveToken(token);
-      router.push({ name: "dashboard" });
-    }
-  } catch (e) {
-    console.error(e);
-    loginLoading.value = false;
-  }
-};
+export default defineComponent({
+  data() {
+    return {
+      loginEmail: "",
+      loginPassword: "",
+      loginLoading: false,
+      validForm: true,
+    };
+  },
+  computed: {
+    formIsValid() {
+      return this.loginEmail && this.loginPassword;
+    },
+  },
+  methods: {
+    ...mapActions("notification", [
+      "showWarningNotification",
+      "showErrorNotification",
+    ]),
+    async submitLogin() {
+      this.loginLoading = true;
+      try {
+        if ((await this.$refs.loginForm.validate()) && this.formIsValid) {
+          const response = await api.post("/user/login/", {
+            email: this.loginEmail,
+            password: this.loginPassword,
+          });
+          if (response && response.status === 202) {
+            const { token, user } = response.data;
+            TokenService.saveToken(token);
+            TokenService.saveUserUuid(user.uuid);
+            await User.insertOrUpdate({
+              data: { ...user, isCurrentUser: true },
+            });
+            router.push({ name: "dashboard" });
+          }
+        } else {
+          this.showWarningNotification(this.$t("formNotValid"));
+        }
+        this.loginLoading = false;
+      } catch (e) {
+        this.loginLoading = false;
+        if (e.response.status === 403) {
+          this.showErrorNotification(this.$t("badCredentials"));
+        } else {
+          this.showErrorNotification(this.$t("errorOccured"));
+        }
+      } finally {
+        this.loginPassword = "";
+      }
+    },
+  },
+});
 </script>
-
-<style scoped></style>
