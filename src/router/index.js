@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
+import { privateRouteMiddleware } from "./middlewares";
 
 // import appChildren from "./children/app-children";
 
@@ -13,15 +14,6 @@ const routes = [
     meta: {
       public: true,
     },
-    // children: appChildren,
-    // beforeEnter: async (to, from, next) => {
-    //   next({ name: "connection" });
-    //   // if (store.getters["user/isLogged"]) {
-    //   //   next({ name: "dashboard" });
-    //   // } else {
-    //   //   next({ name: "connection" });
-    //   // }
-    // },
   },
   {
     path: "/dashboard",
@@ -32,12 +24,19 @@ const routes = [
   {
     path: "/:catchAll(.*)",
     component: Homepage,
+    meta: {
+      public: true,
+    },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  privateRouteMiddleware(to, from, next);
 });
 
 export default router;

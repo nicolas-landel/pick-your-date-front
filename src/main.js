@@ -15,8 +15,8 @@ const vuetify = createVuetify({
 });
 
 const vue = createApp(App);
-vue.use(router);
 vue.use(store);
+vue.use(router);
 vue.use(vuetify);
 vue.use(i18n);
 
