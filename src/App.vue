@@ -2,7 +2,16 @@
   <VApp id="app">
     <AppNavbar />
     <AppNotification />
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Suspense timeout="0">
+        <template #default>
+          <component :is="Component" :key="$route.path"></component>
+        </template>
+        <template #fallback>
+          <VSkeleton type="heading, article, article"></VSkeleton>
+        </template>
+      </Suspense>
+    </RouterView>
   </VApp>
 </template>
 
