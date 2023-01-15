@@ -7,28 +7,25 @@ const getters = {
 };
 
 const actions = {
-  showSuccessNotification({ commit }, message, timeout = 4000) {
+  showSuccessNotification({ commit }, message, timeout = 3000) {
     commit("setNotification", {
       timeout,
-      // position: "center",
+      message,
       type: "success",
-      text: message,
     });
   },
-  showErrorNotification({ commit }, message, timeout = 4000) {
+  showErrorNotification({ commit }, message, timeout = 3000) {
     commit("setNotification", {
       timeout,
-      // position: "center",
+      message,
       type: "error",
-      text: message,
     });
   },
-  showWarningNotification({ commit }, message, timeout = 4000) {
+  showWarningNotification({ commit }, message, timeout = 3000) {
     commit("setNotification", {
       timeout,
-      // position: "center",
+      message,
       type: "warning",
-      text: message,
     });
   },
 };

@@ -1,12 +1,14 @@
 <template>
   <VApp id="app">
     <AppNavbar />
-    <RouterView class="app-content"/>
+    <AppNotification />
+    <RouterView />
   </VApp>
 </template>
 
 <script setup>
 import AppNavbar from "@/components/shared/AppNavbar.vue";
+import AppNotification from "./components/shared/AppNotification.vue";
 </script>
 
 <style scoped>
