@@ -1,15 +1,9 @@
 <template>
-  <h1 class="mt-15">{{ $t("Dashboard") }}</h1>
+  <router-view></router-view>
 </template>
 
-<script setup>
-// TODO fix async/await which breaks navigation
-import { ref } from "vue";
-import api from "@/setup/api";
+<script>
+import { defineComponent } from "vue";
 
-const response = await api.get("/place/")
-console.log("RESPONSEEEE", response)
+export default defineComponent({});
 </script>
-
-<style scoped>
-</style>

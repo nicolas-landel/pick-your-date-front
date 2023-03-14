@@ -2,7 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import { privateRouteMiddleware } from "./middlewares";
 import store from "@/store";
 
-// import appChildren from "./children/app-children";
+import dashboardChildren from "./children/dashboard-children";
 
 const AppHomepage = () => import("@/components/AppHomepage.vue");
 const Dashboard = () => import("@/components/Dashboard.vue");
@@ -19,13 +19,12 @@ const routes = [
   },
   {
     path: "/dashboard",
-    name: "dashboard",
     component: Dashboard,
     beforeEnter: async (to, from, next) => {
       await store.dispatch("user/refreshCurrentUser");
       next();
     },
-    // children: dashboardChildren,
+    children: dashboardChildren,
   },
   {
     path: "/logout",
