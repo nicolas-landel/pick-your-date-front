@@ -2,7 +2,7 @@ import Vuex from "vuex";
 import VuexORM from "@vuex-orm/core";
 
 // Import vuex-orm models
-import { Place, User } from "@/models";
+import { Place, User, Answer, Comment, Option } from "@/models";
 
 // Import store modules
 import PlaceModule from "./modules/place";
@@ -14,6 +14,9 @@ const database = new VuexORM.Database();
 // Register vuex-orm models
 database.register(Place);
 database.register(User);
+database.register(Comment);
+database.register(Answer);
+database.register(Option);
 
 const store = new Vuex.Store({
   state: {},

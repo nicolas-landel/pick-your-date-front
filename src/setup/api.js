@@ -16,11 +16,19 @@ class APIService {
     this.API = API;
   }
 
+  forceToken() {
+    if (!this.API.defaults.headers.Authorization && TokenService.getToken()) {
+      this.API.defaults.headers.Authorization = `Token ${TokenService.getToken()}`;
+    }
+  }
+
   get(path) {
+    this.forceToken();
     return this.API.get(path);
   }
 
   post(path, data) {
+    this.forceToken();
     return this.API.post(path, data);
   }
 }
