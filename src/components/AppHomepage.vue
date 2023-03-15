@@ -1,8 +1,9 @@
 <template>
   <VContainer class="fill-height">
     <VResponsive class="d-flex align-center text-center fill-height">
-      <ConnectionPage v-if="!getCurrentUser" />
-      <VBtn v-else @click="goDashboard">Go to Dashboard</VBtn>
+      <VSkeletonLoader v-if="loading" type="table" />
+      <ConnectionPage v-else-if="!loading && !getCurrentUser" />
+      <VBtn v-else @click="goDashboard">{{ $t("Todashboard") }}</VBtn>
     </VResponsive>
   </VContainer>
 </template>
@@ -18,14 +19,23 @@ export default defineComponent({
     ConnectionPage,
   },
   data() {
-    return {};
+    return {
+      loading: true,
+    };
   },
   computed: {
     ...mapGetters("user", ["getCurrentUser"]),
   },
   async created() {
-    if (!this.getCurrentUser) {
-      await this.refreshCurrentUser();
+    try {
+      if (!this.getCurrentUser) {
+        await this.refreshCurrentUser();
+      }
+    } catch (err) {
+      console.erro(err);
+      this.showErrorNotification(this.$t("errorOccured"));
+    } finally {
+      this.loading = false;
     }
   },
   methods: {

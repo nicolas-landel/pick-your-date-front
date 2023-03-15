@@ -11,5 +11,14 @@
     "badCredentials": "Access denied: wrong email or password",
     "passwordError": "Password error: {message}",
     "emailError": "Email error: {message}",
-    "logoutSuccess": "You have been logged out"
+    "logoutSuccess": "You have been logged out",
+    "Dashboard": "Dashboard",
+    "Todashboard": "Go to dashboard",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
 }

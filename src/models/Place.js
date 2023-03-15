@@ -17,6 +17,25 @@ export default class Place extends BaseModel {
       description: this.attr(""),
       maxCapacity: this.attr(),
       createdBy: this.attr(),
+      isCurrentPlace: this.attr(false),
     };
+  }
+
+  static setCurrentPlace(uuid) {
+    this.update({
+      where: uuid,
+      data: { isCurrentPlace: true },
+    });
+  }
+
+  static getCurrentPlace() {
+    return this.query().where("isCurrentPlace", true).first();
+  }
+
+  static resetCurrentPlace() {
+    return this.update({
+      where: (place) => place.isCurrentPlace,
+      data: { isCurrentPlace: false },
+    });
   }
 }

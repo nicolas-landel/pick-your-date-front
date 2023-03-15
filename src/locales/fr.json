@@ -11,5 +11,14 @@
     "badCredentials": "Access denied: wrong email or password",
     "passwordError": "Error for the password: {message}",
     "emailError": "Error for the email: {message}",
-    "logoutSuccess": "Vous avez bien été déconnecté"
+    "logoutSuccess": "Vous avez bien été déconnecté",
+    "Dashboard": "Tableau de bord",
+    "Todashboard": "Aller au tableau de bord",
+    "monday": "Lundi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi",
+    "thursday": "Jeudi",
+    "friday": "Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche"
 }

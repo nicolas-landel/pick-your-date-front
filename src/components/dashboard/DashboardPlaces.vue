@@ -1,6 +1,5 @@
 <template>
-  <router-view></router-view>
-  <h1 class="mt-15">{{ $t("Dashboard") }}</h1>
+  <h1 class="my-15 mx-5">{{ $t("Dashboard") }}</h1>
   <VSkeletonLoader v-if="loading" type="table" />
   <!-- <VDataTable
     v-else
@@ -8,7 +7,7 @@
     :headers="headers"
     :no-data-text="$t('parcelCodesTable.noPlots')"
   > </VDataTable> -->
-  <VTable>
+  <VTable class="mx-5">
     <thead>
       <tr>
         <th class="text-left">{{ $t("Name") }}</th>
@@ -61,6 +60,7 @@ export default defineComponent({
     ...mapActions("notification", ["showErrorNotification"]),
 
     goToPlace(item) {
+      Place.setCurrentPlace(item.uuid);
       router.push({ name: "place", params: { uuid: item.uuid } });
     },
   },
