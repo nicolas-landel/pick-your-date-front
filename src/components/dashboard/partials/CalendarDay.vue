@@ -1,6 +1,9 @@
 <template>
-  <div class="calendar-day">
-    <span v-if="displayDayString" class="calendar-day-label"
+  <div class="calendar-day" :class="{ outsideMonth: !isCurrentMonth }">
+    <span
+      v-if="displayDayString"
+      class="calendar-day-label"
+      :class="{ currentDay: isCurrentDay }"
       >{{ getDayNumber }}
     </span>
   </div>
@@ -28,6 +31,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    isCurrentDay: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     getDayNumber() {
@@ -48,9 +55,24 @@ export default defineComponent({
   color: #000;
 }
 
+.outsideMonth {
+  background-color: #f7f7f7;
+}
+
 .calendar-day-label {
   display: block;
-  width: 100%;
   text-align: center;
+}
+
+.currentDay {
+  margin-top: 3px;
+  width: 30px !important;
+  height: 30px !important;
+  margin: 2px auto 0px auto;
+  line-height: 30px;
+  color: #fff;
+  background-color: #1867c0;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
 }
 </style>

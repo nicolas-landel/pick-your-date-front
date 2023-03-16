@@ -1,7 +1,12 @@
 <template>
-  <div class="calendar mx-4">
+  <div class="calendar mx-2">
     <div class="header-day-wrapper">
-      <div v-for="index in 7" :key="`weekday-${index}`" class="header-day">
+      <div
+        v-for="index in 7"
+        :key="`weekday-${index}`"
+        class="header-day"
+        :class="isOutsideMonth(index)"
+      >
         {{ getDayString(index + 1) }}
       </div>
     </div>
@@ -16,6 +21,7 @@
         :day="day"
         :displayDayString="true"
         :isCurrentMonth="isFromCurrentMonth(day)"
+        :isCurrentDay="isCurrentDay(day)"
       >
       </CalendarDay>
     </div>
@@ -48,6 +54,12 @@ export default defineComponent({
       default: new Date().getFullYear(),
     },
   },
+  data() {
+    return {
+      paddingDaysBefore: [],
+      paddingDaysAfter: [],
+    };
+  },
   computed: {
     firstDay() {
       return new Date(this.year, this.month, 1);
@@ -70,13 +82,17 @@ export default defineComponent({
       return daysArray;
     },
     getDaysArray() {
-      return this.getPaddingDaysBefore()
+      return this.paddingDaysBefore
         .concat(this.getCurrentMonthDays)
-        .concat(this.getPaddingDaysAfter());
+        .concat(this.paddingDaysAfter);
     },
     getWeeksNumber() {
       return this.getDaysArray.length / 7;
     },
+  },
+  created() {
+    this.paddingDaysBefore = this.getPaddingDaysBefore();
+    this.paddingDaysAfter = this.getPaddingDaysAfter();
   },
   methods: {
     getSideDay(day, position = -1) {
@@ -114,6 +130,15 @@ export default defineComponent({
     getDayString(index) {
       return this.$t(days[index - 1]).slice(0, 3);
     },
+    isOutsideMonth(index) {
+      return index <= this.paddingDaysBefore.length ? "outsideMonth" : "";
+    },
+    isCurrentDay(day) {
+      return (
+        new Date().getDate() === day.getDate() &&
+        new Date().getMonth() === day.getMonth()
+      );
+    },
   },
 });
 </script>
@@ -145,5 +170,8 @@ export default defineComponent({
   text-transform: uppercase;
   white-space: nowrap;
   border-right: 1px solid #e0e0e0;
+}
+.outsideMonth {
+  background-color: #f7f7f7;
 }
 </style>
