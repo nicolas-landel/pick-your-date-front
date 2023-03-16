@@ -90,11 +90,20 @@ export default defineComponent({
       return this.getDaysArray.length / 7;
     },
   },
+  watch: {
+    month() {
+      this.initPaddingDays();
+    },
+  },
   created() {
-    this.paddingDaysBefore = this.getPaddingDaysBefore();
-    this.paddingDaysAfter = this.getPaddingDaysAfter();
+    console.log("MONTHHHH", this.month, this.year, this.firstDay, this.lastDay)
+    this.initPaddingDays()
   },
   methods: {
+    initPaddingDays() {
+      this.paddingDaysBefore = this.getPaddingDaysBefore();
+      this.paddingDaysAfter = this.getPaddingDaysAfter();
+    },
     getSideDay(day, position = -1) {
       // Position value: -1 for before, 1 for next day
       return new Date(day.getTime() + position * 24 * 60 * 60 * 1000);
