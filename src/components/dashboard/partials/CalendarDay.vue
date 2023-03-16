@@ -4,18 +4,15 @@
       v-if="displayDayString"
       class="calendar-day-label"
       :class="{ currentDay: isCurrentDay }"
-      >{{ getDayNumber }}
+      >{{ getDayNumber }} {{ getMonthShortLabel }}
     </span>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { mapActions } from "vuex";
-import router from "@/router";
-import api from "@/setup/api";
-import { Place } from "@/models";
-import { days } from "@/utils/const";
+import { months } from "@/utils/const";
+import { truncate } from "@/utils/helpers"; 
 
 export default defineComponent({
   props: {
@@ -39,6 +36,12 @@ export default defineComponent({
   computed: {
     getDayNumber() {
       return this.day.getDate();
+    },
+    getMonthShortLabel() {
+      if (this.getDayNumber === 1) {
+        return truncate(months[this.day.getMonth()], 3, ".");
+      }
+      return "";
     },
   },
   data() {
