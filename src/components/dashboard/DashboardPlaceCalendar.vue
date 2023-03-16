@@ -2,7 +2,7 @@
   <h1 class="my-15 mx-5">{{ currentPlace.name }}</h1>
   <VSkeletonLoader v-if="loading" type="table" />
   <div>
-      <Calendar />
+    <CalendarMonth />
   </div>
 </template>
 
@@ -12,11 +12,11 @@ import { mapActions } from "vuex";
 import router from "@/router";
 import api from "@/setup/api";
 import { Place } from "@/models";
-import Calendar from "@/components/dashboard/partials/Calendar.vue";
+import CalendarMonth from "@/components/dashboard/partials/CalendarMonth.vue";
 
 export default defineComponent({
   components: {
-    Calendar,
+    CalendarMonth,
   },
   data() {
     return {
@@ -41,8 +41,8 @@ export default defineComponent({
   },
   methods: {
     ...mapActions("place", ["fetchPlaces"]),
-    ...mapActions("notification", ["showErrorNotification"])
-  }
+    ...mapActions("notification", ["showErrorNotification"]),
+  },
 });
 </script>
 

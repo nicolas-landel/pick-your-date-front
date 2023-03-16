@@ -1,21 +1,34 @@
 <template>
-  <div>
-    <div v-for="week in getWeeksNumber" :key="`week-${week}`">
-      <div v-for="day in getWeekDays(week - 1)" :key="day">
-        {{ day }}
-        <CalendarDay :day="day" :displayDayString="true"> </CalendarDay>
+  <div class="calendar mx-4">
+    <div class="header-day-wrapper">
+      <div v-for="index in 7" :key="`weekday-${index}`" class="header-day">
+        {{ getDayString(index + 1) }}
       </div>
+    </div>
+    <div
+      class="py-0 week-class"
+      v-for="week in getWeeksNumber"
+      :key="`week-${week}`"
+    >
+      <CalendarDay
+        v-for="day in getWeekDays(week - 1)"
+        :key="day"
+        :day="day"
+        :displayDayString="true"
+        :isCurrentMonth="isFromCurrentMonth(day)"
+      >
+      </CalendarDay>
     </div>
   </div>
 </template>
 <script>
-
 import { defineComponent } from "vue";
 // import { mapActions } from "vuex";
 // import router from "@/router";
 // import api from "@/setup/api";
 // import { Place } from "@/models";
 import CalendarDay from "@/components/dashboard/partials/CalendarDay.vue";
+import { days } from "@/utils/const";
 
 // INFO - NL - 15/03/2023 - Cannot use vuetify calendar because it is not available for vue 3, only vue 2 ...
 export default defineComponent({
@@ -95,6 +108,42 @@ export default defineComponent({
     getWeekDays(week) {
       return this.getDaysArray.slice(week * 7, (week + 1) * 7);
     },
+    isFromCurrentMonth(day) {
+      return day.getMonth() === this.month;
+    },
+    getDayString(index) {
+      return this.$t(days[index - 1]).slice(0, 3);
+    },
   },
 });
 </script>
+
+<style scoped>
+.calendar {
+  height: 600px;
+}
+
+.header-day-wrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-left: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.week-class {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 18%;
+  border-left: 1px solid #e0e0e0;
+}
+
+.header-day {
+  font-size: 11px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-right: 1px solid #e0e0e0;
+}
+</style>

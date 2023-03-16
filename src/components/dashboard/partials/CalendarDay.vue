@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <span v-if="displayDayString">{{ getDayString }}</span>
+  <div class="calendar-day">
+    <span v-if="displayDayString" class="calendar-day-label"
+      >{{ getDayNumber }}
+    </span>
   </div>
 </template>
 
@@ -28,8 +30,8 @@ export default defineComponent({
     },
   },
   computed: {
-    getDayString() {
-      return this.$t(days[this.day.getDay()]);
+    getDayNumber() {
+      return this.day.getDate();
     },
   },
   data() {
@@ -38,3 +40,17 @@ export default defineComponent({
   methods: {},
 });
 </script>
+
+<style scoped>
+.calendar-day {
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #000;
+}
+
+.calendar-day-label {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+</style>

@@ -70,6 +70,6 @@ export default defineComponent({
 <style scoped>
 .pointer:hover {
   cursor: pointer;
-  background-color: #e2e2e2;
+  background-color: #f7f7f7;
 }
 </style>
