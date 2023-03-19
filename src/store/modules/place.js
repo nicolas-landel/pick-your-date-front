@@ -8,7 +8,6 @@ const actions = {
   async fetchPlaces(_, { api }) {
     const response = await api.get("/place/");
     Place.insertOrUpdate({ data: response.data });
-    console.log("EEEE", Place.all());
   },
 };
 

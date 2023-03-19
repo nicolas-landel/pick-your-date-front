@@ -26,6 +26,7 @@ const actions = {
     }
   },
   async logoutUser() {
+    // TODO delete app data
     User.deleteAll();
     TokenService.removeAllKeys();
   },

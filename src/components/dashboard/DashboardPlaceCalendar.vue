@@ -1,5 +1,5 @@
 <template>
-  <h1 class="mt-15 mb-3 mx-5">{{ currentPlace.name }}</h1>
+  <h1 class="mt-15 mb-3 mx-5">{{ placeName }}</h1>
   <VSkeletonLoader v-if="loading" type="table" />
   <div v-else>
     <CalendarHeader
@@ -38,10 +38,18 @@ export default defineComponent({
     currentPlace() {
       return Place.getCurrentPlace();
     },
+    placeName() {
+      return this.currentPlace?.name;
+    }
   },
   async created() {
     try {
       this.loading = false;
+      await Promise.all([
+        this.fetchPlaceAnswers({ api, placeUuid: this.currentPlace.uuid }),
+        this.fetchPlaceOptions({ api, placeUuid: this.currentPlace.uuid }),
+        this.fetchPlaceComments({ api, placeUuid: this.currentPlace.uuid }),
+      ]);
       this.initializeData();
     } catch (e) {
       this.showErrorNotification(this.$t("errorOccured"));
@@ -54,6 +62,9 @@ export default defineComponent({
   methods: {
     ...mapActions("place", ["fetchPlaces"]),
     ...mapActions("notification", ["showErrorNotification"]),
+    ...mapActions("option", ["fetchPlaceOptions"]),
+    ...mapActions("comment", ["fetchPlaceComments"]),
+    ...mapActions("answer", ["fetchPlaceAnswers"]),
     initializeData() {
       this.month = new Date().getMonth();
       this.year = new Date().getFullYear();
@@ -76,8 +87,8 @@ export default defineComponent({
     },
     goToday() {
       this.month = new Date().getMonth();
-      this.year = new Date().getFullYear()
-    }
+      this.year = new Date().getFullYear();
+    },
   },
 });
 </script>

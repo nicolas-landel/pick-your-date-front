@@ -8,6 +8,9 @@ import { Place, User, Answer, Comment, Option } from "@/models";
 import PlaceModule from "./modules/place";
 import NotificationModule from "./modules/notification";
 import UserModule from "./modules/user";
+import AnswerModule from "./modules/answer";
+import OptionModules from "./modules/option";
+import CommentModules from "./modules/comment";
 
 const database = new VuexORM.Database();
 
@@ -27,6 +30,9 @@ const store = new Vuex.Store({
     place: PlaceModule,
     notification: NotificationModule,
     user: UserModule,
+    answer: AnswerModule,
+    option: OptionModules,
+    comment: CommentModules,
   },
 });
 

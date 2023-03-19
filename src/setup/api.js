@@ -22,9 +22,10 @@ class APIService {
     }
   }
 
-  get(path) {
+  get(path, params) {
     this.forceToken();
-    return this.API.get(path);
+    const queryParams = new URLSearchParams(params);
+    return this.API.get(`${path}?${queryParams}`);
   }
 
   post(path, data) {
