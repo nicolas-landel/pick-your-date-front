@@ -13,6 +13,7 @@ import { defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import ConnectionPage from "@/components/partials/ConnectionPage.vue";
 import router from "@/router";
+import { TokenService } from "@/setup/tokenService";
 
 export default defineComponent({
   components: {
@@ -32,14 +33,16 @@ export default defineComponent({
         await this.refreshCurrentUser();
       }
     } catch (err) {
-      console.erro(err);
+      console.error(err);
       this.showErrorNotification(this.$t("errorOccured"));
+      TokenService.removeAllKeys();
     } finally {
       this.loading = false;
     }
   },
   methods: {
     ...mapActions("user", ["refreshCurrentUser"]),
+    ...mapActions("notification", ["showErrorNotification"]),
     goDashboard() {
       router.push("/dashboard");
     },
