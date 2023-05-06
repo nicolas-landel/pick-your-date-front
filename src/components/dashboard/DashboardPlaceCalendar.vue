@@ -23,7 +23,7 @@ import { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import router from "@/router";
 import api from "@/setup/api";
-import { Place } from "@/models";
+import { Place, Answer, Comment, Option } from "@/models";
 import CalendarMonth from "@/components/dashboard/partials/CalendarMonth.vue";
 import CalendarHeader from "@/components/dashboard/partials/CalendarHeader.vue";
 import CalendarTab from "@/components/dashboard/partials/calendarTab/CalendarTab.vue";
@@ -48,24 +48,28 @@ export default defineComponent({
     },
     placeName() {
       return this.currentPlace?.name;
-    }
+    },
   },
   async created() {
     try {
-      this.loading = false;
       await Promise.all([
         this.fetchPlaceAnswers({ api, placeUuid: this.currentPlace.uuid }),
         this.fetchPlaceOptions({ api, placeUuid: this.currentPlace.uuid }),
         this.fetchPlaceComments({ api, placeUuid: this.currentPlace.uuid }),
       ]);
       this.initializeData();
+      this.loading = false;
     } catch (e) {
       this.showErrorNotification(this.$t("errorOccured"));
       this.loading = false;
     }
   },
   beforeUnmount() {
+    console.log("UNMOUNT");
     Place.resetCurrentPlace();
+    Answer.deleteAll();
+    Option.deleteAll();
+    Comment.deleteAll();
   },
   methods: {
     ...mapActions("place", ["fetchPlaces"]),
