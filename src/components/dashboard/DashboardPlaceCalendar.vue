@@ -1,5 +1,9 @@
 <template>
-  <h1 class="mt-15 mb-3 mx-5">{{ placeName }}</h1>
+  <div class="mt-15 mb-3 mx-5 flex d-flex">
+    <h1>{{ placeName }}</h1>
+    <VSpacer />
+    <VBtn v-if="!loading" icon="mdi-menu" @click="openCalendarTab"></VBtn>
+  </div>
   <VSkeletonLoader v-if="loading" type="table" />
   <div v-else>
     <CalendarHeader
@@ -10,6 +14,7 @@
       @go-today="goToday"
     />
     <CalendarMonth :year="year" :month="month" />
+    <CalendarTab v-if="calendarTabOpen" v-model="calendarTabOpen" />
   </div>
 </template>
 
@@ -21,17 +26,20 @@ import api from "@/setup/api";
 import { Place } from "@/models";
 import CalendarMonth from "@/components/dashboard/partials/CalendarMonth.vue";
 import CalendarHeader from "@/components/dashboard/partials/CalendarHeader.vue";
+import CalendarTab from "@/components/dashboard/partials/calendarTab/CalendarTab.vue";
 
 export default defineComponent({
   components: {
     CalendarMonth,
     CalendarHeader,
+    CalendarTab,
   },
   data() {
     return {
       loading: true,
       month: 0,
       year: 0,
+      calendarTabOpen: false,
     };
   },
   computed: {
@@ -88,6 +96,9 @@ export default defineComponent({
     goToday() {
       this.month = new Date().getMonth();
       this.year = new Date().getFullYear();
+    },
+    openCalendarTab() {
+      this.calendarTabOpen = true;
     },
   },
 });
