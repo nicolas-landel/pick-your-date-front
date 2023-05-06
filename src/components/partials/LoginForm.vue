@@ -9,13 +9,28 @@
         type="text"
         required
       ></VTextField>
-      <VTextField
-        v-model="loginPassword"
-        name="password"
-        :label="$t('Password')"
-        type="password"
-        required
-      ></VTextField>
+      <div>
+        <VTextField
+          v-if="!showPassword"
+          v-model="loginPassword"
+          name="password"
+          :label="$t('Password')"
+          type="password"
+          required
+          append-inner-icon="mdi-eye"
+          @click:append-inner="toggleShowPassword"
+        ></VTextField>
+        <VTextField
+          v-if="showPassword"
+          v-model="loginPassword"
+          name="password"
+          :label="$t('Password')"
+          type="text"
+          required
+          append-inner-icon="mdi-eye-off"
+          @click:append-inner="toggleShowPassword"
+        ></VTextField>
+      </div>
       <VBtn
         class="mt-4"
         color="primary"
@@ -43,6 +58,7 @@ export default defineComponent({
       loginPassword: "",
       loginLoading: false,
       validForm: true,
+      showPassword: false,
     };
   },
   computed: {
@@ -55,6 +71,9 @@ export default defineComponent({
       "showWarningNotification",
       "showErrorNotification",
     ]),
+    toggleShowPassword() {
+      this.showPassword = !this.showPassword;
+    },
     async submitLogin() {
       this.loginLoading = true;
       try {
@@ -90,3 +109,5 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped></style>
