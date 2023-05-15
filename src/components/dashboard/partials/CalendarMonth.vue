@@ -35,6 +35,7 @@ import { defineComponent } from "vue";
 // import { Place } from "@/models";
 import CalendarDay from "@/components/dashboard/partials/CalendarDay.vue";
 import { days } from "@/utils/const";
+import { Answer } from "@/models";
 
 // INFO - NL - 15/03/2023 - Cannot use vuetify calendar because it is not available for vue 3, only vue 2 ...
 export default defineComponent({
@@ -52,6 +53,10 @@ export default defineComponent({
     year: {
       type: Number,
       default: new Date().getFullYear(),
+    },
+    answers: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {
@@ -89,6 +94,18 @@ export default defineComponent({
     getWeeksNumber() {
       return this.getDaysArray.length / 7;
     },
+    firstDayDisplayed() {
+      return this.getDaysArray[0];
+    },
+    lastDayDisplayed() {
+      return this.getDaysArray[this.getDaysArray.length - 1];
+    },
+    getAnswers() {
+      return Answer.getAnswersBetween(
+        this.firstDayDisplayed,
+        this.lastDayDisplayed
+      );
+    },
   },
   watch: {
     month() {
@@ -96,8 +113,7 @@ export default defineComponent({
     },
   },
   created() {
-    console.log("MONTHHHH", this.month, this.year, this.firstDay, this.lastDay)
-    this.initPaddingDays()
+    this.initPaddingDays();
   },
   methods: {
     initPaddingDays() {

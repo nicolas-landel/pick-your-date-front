@@ -9,7 +9,7 @@ export default class Comment extends BaseModel {
       text: this.attr(""),
       answer: this.attr(),
       author: this.attr(),
-      repliedTo: this.attr(),
+      replyTo: this.attr(),
     };
   }
 }

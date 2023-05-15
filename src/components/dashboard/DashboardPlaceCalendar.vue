@@ -4,6 +4,7 @@
     <VSpacer />
     <VBtn v-if="!loading" icon="mdi-menu" @click="openCalendarTab"></VBtn>
   </div>
+
   <VSkeletonLoader v-if="loading" type="table" />
   <div v-else>
     <CalendarHeader
