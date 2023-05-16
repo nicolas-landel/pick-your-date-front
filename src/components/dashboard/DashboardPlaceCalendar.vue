@@ -23,7 +23,7 @@
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import api from "@/setup/api";
-import { Place, Answer, Comment, Option } from "@/models";
+import { Place, Answer, Comment, Option, User } from "@/models";
 import CalendarMonth from "@/components/dashboard/partials/CalendarMonth.vue";
 import CalendarHeader from "@/components/dashboard/partials/CalendarHeader.vue";
 import CalendarTab from "@/components/dashboard/partials/calendarTab/CalendarTab.vue";
@@ -56,11 +56,14 @@ export default defineComponent({
         this.fetchPlaceAnswers({ api, placeUuid: this.currentPlace.uuid }),
         this.fetchPlaceOptions({ api, placeUuid: this.currentPlace.uuid }),
         this.fetchPlaceComments({ api, placeUuid: this.currentPlace.uuid }),
+        this.fetchUsersMembers({ api, placeUuid: this.currentPlace.uuid }),
       ]);
       this.initializeData();
       this.loading = false;
     } catch (e) {
+      // TODO redirect to error page
       this.showErrorNotification(this.$t("errorOccured"));
+      console.error(e);
       this.loading = false;
     }
   },
@@ -70,6 +73,7 @@ export default defineComponent({
     Answer.deleteAll();
     Option.deleteAll();
     Comment.deleteAll();
+    User.deleteNonCurrentUser();
   },
   methods: {
     ...mapActions("place", ["fetchPlaces"]),
@@ -77,6 +81,7 @@ export default defineComponent({
     ...mapActions("option", ["fetchPlaceOptions"]),
     ...mapActions("comment", ["fetchPlaceComments"]),
     ...mapActions("answer", ["fetchPlaceAnswers"]),
+    ...mapActions("user", ["fetchUsersMembers"]),
     initializeData() {
       this.month = new Date().getMonth();
       this.year = new Date().getFullYear();

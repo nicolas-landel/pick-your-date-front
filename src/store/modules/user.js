@@ -26,6 +26,15 @@ const actions = {
       });
     }
   },
+  async fetchUsersMembers(_, { api, placeUuid }) {
+    const response = await api.get(`/user/members/`, {
+      place: placeUuid,
+    });
+    const users = formatResponse(response.data);
+    await User.insertOrUpdate({
+      data: users.map((user) => ({ ...user })),
+    });
+  },
   async logoutUser() {
     // TODO delete app data
     User.deleteAll();

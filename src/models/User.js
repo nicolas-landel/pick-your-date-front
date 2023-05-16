@@ -16,4 +16,8 @@ export default class User extends Model {
       createdAt: this.attr(""),
     };
   }
+
+  static deleteNonCurrentUser() {
+    this.query().where("isCurrentUser", false).delete();
+  }
 }
