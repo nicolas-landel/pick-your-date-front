@@ -8,7 +8,7 @@ const TokenService = {
   },
 
   getToken() {
-    return localStorage.getItem(TOKEN_KEY) || "";
+    return localStorage.getItem(TOKEN_KEY);
   },
   saveToken(accessToken) {
     localStorage.setItem(TOKEN_KEY, accessToken);
@@ -18,7 +18,7 @@ const TokenService = {
   },
 
   getUserUuid() {
-    return localStorage.getItem(USER_UUID_KEY) || "HHHHH";
+    return localStorage.getItem(USER_UUID_KEY);
   },
   saveUserUuid(userUuid) {
     localStorage.setItem(USER_UUID_KEY, userUuid);

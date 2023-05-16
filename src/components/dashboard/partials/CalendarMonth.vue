@@ -162,10 +162,8 @@ export default defineComponent({
     getAnswersOfDate(day) {
       day = stringDateToTimestamp(day.toLocaleString());
       return this.getAnswers.filter((answer) => {
-        console.log("HHHHHH", answer, answer.endDate, day)
         return (
-          stringDateToTimestamp(answer.startDate) >= day &&
-          stringDateToTimestamp(answer.endDate) <= day
+          stringDateToTimestamp(answer.startDate) <= day && stringDateToTimestamp(answer.endDate) > day
         );
       });
     },
