@@ -7,18 +7,13 @@
       >{{ getDayNumber }} {{ getMonthShortLabel }}
     </span>
     <div class="calendar-day-content">
-      <div v-for="answer in answers" :key="answer.id">
-        {{ answer }}
-        <!-- {{ getOptionColor(answer) }} -->
-        <!-- <v-chip
-          v-if="answer"
-          :color="getOptionColor(answer)"
-          :text-color="answer.textColor"
-          class="ma-1"
-          @click="goToAnswer(answer)"
-        >
-          {{ answer.title }}
-        </v-chip> -->
+      <div
+        v-for="answer in answers"
+        :key="answer.id"
+        :style="getAnswerStyle(answer)"
+        @click="openAnswerModal(answer)"
+      >
+        {{ answer.createdBy }}
       </div>
     </div>
   </div>
@@ -28,7 +23,8 @@
 import { defineComponent } from "vue";
 import { months } from "@/utils/const";
 import { truncate } from "@/utils/helpers";
-import { Option } from "@/models";
+import { stringDateToDate } from "@/utils/date";
+import { Option } from "@/models";
 
 export default defineComponent({
   props: {
@@ -71,6 +67,30 @@ export default defineComponent({
     getOptionColor(answer) {
       return Option.find(answer.option)?.color;
     },
+    getWeekDuration(answer) {
+      const startDate = stringDateToDate(answer.startDate);
+      // If the answer starts on the same day as the current day
+      if (startDate === this.day) {
+        if (this.day.getDay() === 0) return 1;
+        return 8 - this.day.getDay();
+      }
+      // If the answer starts before the current day
+      const durationBeforeWeek =
+        this.day.getDate() - stringDateToDate(answer.startDate).getDate();
+      return Math.min(7, answer.duration - durationBeforeWeek);
+    },
+    getAnswerStyle(answer) {
+      return {
+        width: `calc(${100 * this.getWeekDuration(answer)}% - 8px)`,
+        backgroundColor: this.getOptionColor(answer),
+        zIndex: 2,
+        position: "relative",
+        marginLeft: "8px",
+      };
+    },
+    openAnswerModal(answer) {
+      this.$emit("open-answer-modal", answer);
+    },
   },
 });
 </script>
@@ -80,6 +100,9 @@ export default defineComponent({
   border-right: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
   color: #000;
+  overflow: visible;
+  position: relative;
+  /* z-index: 1; */
 }
 
 .outsideMonth {
@@ -89,17 +112,22 @@ export default defineComponent({
 .calendar-day-label {
   display: block;
   text-align: center;
+  height: 35px;
 }
 
 .currentDay {
   margin-top: 3px;
   width: 30px !important;
   height: 30px !important;
-  margin: 2px auto 0px auto;
+  margin: 2px auto 3px auto;
   line-height: 30px;
   color: #fff;
   background-color: #1867c0;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+}
+
+.calendar-day-content {
+  overflow: visible;
 }
 </style>

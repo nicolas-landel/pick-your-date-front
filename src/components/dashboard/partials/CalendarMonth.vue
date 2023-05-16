@@ -160,10 +160,14 @@ export default defineComponent({
       );
     },
     getAnswersOfDate(day) {
-      day = stringDateToTimestamp(day.toLocaleString());
+      const dayTimestamp = stringDateToTimestamp(day.toLocaleString());
       return this.getAnswers.filter((answer) => {
+        // Answer starts at the day or it is a new week and the answer continues to this new week
         return (
-          stringDateToTimestamp(answer.startDate) <= day && stringDateToTimestamp(answer.endDate) > day
+          stringDateToTimestamp(answer.startDate) === dayTimestamp ||
+          (stringDateToTimestamp(answer.startDate) < dayTimestamp &&
+            stringDateToTimestamp(answer.endDate) > dayTimestamp &&
+            day.getDay() === 1)
         );
       });
     },
@@ -174,6 +178,7 @@ export default defineComponent({
 <style scoped>
 .calendar {
   height: 600px;
+  overflow: hidden;
 }
 
 .header-day-wrapper {
@@ -185,9 +190,10 @@ export default defineComponent({
 
 .week-class {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
   height: 18%;
   border-left: 1px solid #e0e0e0;
+  width: 100%;
 }
 
 .header-day {
