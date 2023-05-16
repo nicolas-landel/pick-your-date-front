@@ -1,4 +1,5 @@
 import { Comment } from "@/models";
+import { formatResponse } from "@/utils/helpers.js";
 
 const state = {};
 
@@ -9,7 +10,7 @@ const actions = {
     const response = await api.get("/place/place_comments/", {
       place: placeUuid,
     });
-    Comment.insertOrUpdate({ data: response.data });
+    Comment.insertOrUpdate({ data: formatResponse(response.data) });
   },
 };
 

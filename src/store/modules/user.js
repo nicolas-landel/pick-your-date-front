@@ -1,6 +1,7 @@
 import { User } from "@/models";
 import { TokenService } from "@/setup/tokenService";
 import api from "@/setup/api";
+import { formatResponse } from "@/utils/helpers.js";
 
 const state = {
   token: null,
@@ -19,7 +20,7 @@ const actions = {
     const currentUser = getters.getCurrentUser;
     if (!currentUser || currentUser.uuid !== TokenService.getUserUuid()) {
       const response = await api.get(`/user/${TokenService.getUserUuid()}/`);
-      const { user } = response.data;
+      const { user } = formatResponse(response.data);
       await User.insertOrUpdate({
         data: { ...user, isCurrentUser: true },
       });

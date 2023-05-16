@@ -19,9 +19,10 @@
         v-for="day in getWeekDays(week - 1)"
         :key="day"
         :day="day"
-        :displayDayString="true"
-        :isCurrentMonth="isFromCurrentMonth(day)"
-        :isCurrentDay="isCurrentDay(day)"
+        :display-day-string="true"
+        :is-current-month="isFromCurrentMonth(day)"
+        :is-current-day="isCurrentDay(day)"
+        :answers="getAnswersOfDate(day)"
       >
       </CalendarDay>
     </div>
@@ -36,6 +37,7 @@ import { defineComponent } from "vue";
 import CalendarDay from "@/components/dashboard/partials/CalendarDay.vue";
 import { days } from "@/utils/const";
 import { Answer } from "@/models";
+import { stringDateToTimestamp } from "@/utils/date";
 
 // INFO - NL - 15/03/2023 - Cannot use vuetify calendar because it is not available for vue 3, only vue 2 ...
 export default defineComponent({
@@ -53,10 +55,6 @@ export default defineComponent({
     year: {
       type: Number,
       default: new Date().getFullYear(),
-    },
-    answers: {
-      type: Array,
-      default: () => [],
     },
   },
   data() {
@@ -101,10 +99,7 @@ export default defineComponent({
       return this.getDaysArray[this.getDaysArray.length - 1];
     },
     getAnswers() {
-      return Answer.getAnswersBetween(
-        this.firstDayDisplayed,
-        this.lastDayDisplayed
-      );
+      return Answer.all();
     },
   },
   watch: {
@@ -163,6 +158,16 @@ export default defineComponent({
         new Date().getDate() === day.getDate() &&
         new Date().getMonth() === day.getMonth()
       );
+    },
+    getAnswersOfDate(day) {
+      day = stringDateToTimestamp(day.toLocaleString());
+      return this.getAnswers.filter((answer) => {
+        console.log("HHHHHH", answer, answer.endDate, day)
+        return (
+          stringDateToTimestamp(answer.startDate) >= day &&
+          stringDateToTimestamp(answer.endDate) <= day
+        );
+      });
     },
   },
 });

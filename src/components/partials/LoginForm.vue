@@ -50,6 +50,7 @@ import router from "@/router";
 import api from "@/setup/api";
 import { TokenService } from "@/setup/tokenService";
 import { User } from "@/models";
+import { formatResponse } from "@/utils/helpers"
 
 export default defineComponent({
   data() {
@@ -83,7 +84,7 @@ export default defineComponent({
             password: this.loginPassword,
           });
           if (response && response.status === 202) {
-            const { token, user } = response.data;
+            const { token, user } = formatResponse(response.data);
             TokenService.saveToken(token);
             TokenService.saveUserUuid(user.uuid);
             await User.insertOrUpdate({

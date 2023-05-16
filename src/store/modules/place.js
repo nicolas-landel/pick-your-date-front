@@ -1,4 +1,5 @@
 import { Place } from "@/models";
+import { formatResponse } from "@/utils/helpers.js";
 
 const state = {};
 
@@ -7,7 +8,7 @@ const getters = {};
 const actions = {
   async fetchPlaces(_, { api }) {
     const response = await api.get("/place/");
-    Place.insertOrUpdate({ data: response.data });
+    Place.insertOrUpdate({ data: formatResponse(response.data) });
   },
 };
 

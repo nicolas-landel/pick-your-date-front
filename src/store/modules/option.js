@@ -1,4 +1,5 @@
 import { Option } from "@/models";
+import { formatResponse } from "@/utils/helpers.js";
 
 const state = {};
 
@@ -9,7 +10,7 @@ const actions = {
     const response = await api.get("/place/place_options/", {
       place: placeUuid,
     });
-    Option.insertOrUpdate({ data: response.data });
+    Option.insertOrUpdate({ data: formatResponse(response.data) });
   },
 };
 

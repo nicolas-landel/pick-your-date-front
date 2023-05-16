@@ -22,7 +22,6 @@
 <script>
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
-import router from "@/router";
 import api from "@/setup/api";
 import { Place, Answer, Comment, Option } from "@/models";
 import CalendarMonth from "@/components/dashboard/partials/CalendarMonth.vue";

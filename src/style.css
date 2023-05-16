@@ -76,6 +76,10 @@ button:focus-visible {
   text-align: center;
 }
 
+.pointer:hover {
+  cursor: pointer;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

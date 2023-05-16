@@ -1,5 +1,5 @@
 import { BaseModel } from "./baseModels";
-import { stringDateToTimestamp } from "@/utils/date.js";
+import { addDaysToDate } from "@/utils/date.js";
 
 export default class Answer extends BaseModel {
   static entity = "answers";
@@ -7,7 +7,8 @@ export default class Answer extends BaseModel {
   static fields() {
     return {
       ...super.fields(),
-      date: this.attr(),
+      startDate: this.attr(),
+      duration: this.attr(),
       option: this.attr(),
       place: this.attr(),
       isArchived: this.boolean(false),
@@ -15,15 +16,8 @@ export default class Answer extends BaseModel {
     };
   }
 
-  static getAnswersBetween(start, end) {
-    start = stringDateToTimestamp(start.toLocaleString());
-    end = stringDateToTimestamp(end.toLocaleString());
-    return this.query()
-      .where(
-        (a) =>
-          stringDateToTimestamp(a.date) >= start &&
-          stringDateToTimestamp(a.date) <= end
-      )
-      .get();
+  get endDate() {
+    console.log(this.startDate, addDaysToDate(this.startDate, this.duration));
+    return addDaysToDate(this.startDate, this.duration).toLocaleString();
   }
 }

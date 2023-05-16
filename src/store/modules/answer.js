@@ -1,4 +1,5 @@
 import { Answer } from "@/models";
+import { formatResponse } from "@/utils/helpers.js";
 
 const state = {};
 
@@ -9,7 +10,7 @@ const actions = {
     const response = await api.get("/place/place_answers/", {
       place: placeUuid,
     });
-    Answer.insertOrUpdate({ data: response.data });
+    Answer.insertOrUpdate({ data: formatResponse(response.data) });
   },
 };
 

@@ -31,3 +31,10 @@ export const stringDateToTimestamp = (date) => {
   }
   return new Date(date).getTime();
 };
+
+export const addDaysToDate = (date, days) => {
+  if (typeof date === "string") date = new Date(date);
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};

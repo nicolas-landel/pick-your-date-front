@@ -6,13 +6,29 @@
       :class="{ currentDay: isCurrentDay }"
       >{{ getDayNumber }} {{ getMonthShortLabel }}
     </span>
+    <div class="calendar-day-content">
+      <div v-for="answer in answers" :key="answer.id">
+        {{ answer }}
+        <!-- {{ getOptionColor(answer) }} -->
+        <!-- <v-chip
+          v-if="answer"
+          :color="getOptionColor(answer)"
+          :text-color="answer.textColor"
+          class="ma-1"
+          @click="goToAnswer(answer)"
+        >
+          {{ answer.title }}
+        </v-chip> -->
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import { months } from "@/utils/const";
-import { truncate } from "@/utils/helpers"; 
+import { truncate } from "@/utils/helpers";
+import { Option } from "@/models";
 
 export default defineComponent({
   props: {
@@ -32,6 +48,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    answers: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     getDayNumber() {
@@ -47,7 +67,11 @@ export default defineComponent({
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    getOptionColor(answer) {
+      return Option.find(answer.option)?.color;
+    },
+  },
 });
 </script>
 
